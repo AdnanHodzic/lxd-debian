@@ -1,0 +1,7 @@
+usr/bin/lxd
+usr/share/man/man1/lxd.1
+
+debian/wrappers/shutdown usr/lib/lxd/
+debian/wrappers/upgrade-bridge usr/lib/lxd/
+
+etc/dnsmasq.d-available/lxd

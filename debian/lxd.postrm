@@ -1,0 +1,32 @@
+#!/bin/sh
+set -e
+
+#DEBHELPER#
+
+# Package removal
+if [ "$1" = "remove" ]; then
+    # Manual init script handling
+    if [ -d /run/systemd/system ]; then
+        deb-systemd-invoke stop lxd-containers.service lxd.service lxd.socket >/dev/null || true
+    elif [ -x "/etc/init.d/lxd" ] || [ -e "/etc/init/lxd.conf" ]; then
+        invoke-rc.d lxd stop || true
+    fi
+
+    # dnsmasq config handling
+    if [ -L /etc/dnsmasq.d/lxd ]; then
+        echo "Removing lxd dnsmasq configuration"
+        rm -f /etc/dnsmasq.d/lxd 2>/dev/null || true
+
+        # Try to restart a potential system wide dnsmasq
+        invoke-rc.d dnsmasq restart 2>/dev/null || true
+    fi
+fi
+
+# Purge
+if [ "$1" = "purge" ]; then
+    # clean all the things
+    rm --one-file-system -Rf /var/lib/lxd /var/log/lxd || true
+    rm -f /etc/dnsmasq.d-available/lxd || true
+fi
+
+exit 0

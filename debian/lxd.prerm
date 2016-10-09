@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+
+#DEBHELPER#
+
+# Manual init script handling
+if [ -d /run/systemd/system ]; then
+    if [ "$1" = "remove" ]; then
+        deb-systemd-invoke stop lxd-containers.service lxd.socket lxd.service >/dev/null || true
+    else
+        deb-systemd-invoke stop lxd.service >/dev/null || true
+    fi
+elif [ -x "/etc/init.d/lxd" ] || [ -e "/etc/init/lxd.conf" ]; then
+    invoke-rc.d lxd stop || true
+fi
+
+exit 0

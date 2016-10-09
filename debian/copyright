@@ -1,0 +1,249 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: lxd
+Upstream-Contact: lxc-devel@lists.linuxcontainers.org
+Source: https://linuxcontainers.org/lxd/downloads
+
+Files: *
+Copyright: 2014-2015 LXD contributors
+License: Apache-2
+
+Files: dist/src/github.com/dustinkirkland/golang-petname/*
+Copyright: 2014 Dustin Kirkland <dustin.kirkland@gmail.com>
+License: Apache-2
+
+Files: dist/src/github.com/golang/protobuf/*
+Copyright: 2010 The Go Authors
+License: BSD-3-clause
+
+Files: dist/src/github.com/gorilla/context/*
+Copyright: 2012 Rodrigo Moraes
+License: BSD-2-clause
+
+Files: dist/src/github.com/gorilla/mux/*
+Copyright: 2012 Rodrigo Moraes
+License: BSD-2-clause
+
+Files: dist/src/github.com/gorilla/websocket/*
+Copyright: 2013 The Gorilla WebSocket Authors.
+License: BSD-2-clause
+
+Files: dist/src/github.com/gosexy/gettext/*
+Copyright: 2012-2013 José Carlos Nieto, http://xiam.menteslibres.org/
+License: Expat
+
+Files: dist/src/github.com/mattn/go-colorable/*
+Copyright: 2014 Yasuhiro Matsumoto
+License: Expat
+
+Files: dist/src/github.com/mattn/go-runewidth/*
+Copyright: 2015 Yasuhiro Matsumoto
+License: Expat
+
+Files: dist/src/github.com/mattn/go-sqlite3/*
+Copyright: 2014 Yasuhiro Matsumoto
+License: Expat
+
+Files: dist/src/github.com/olekukonko/tablewriter/*
+Copyright: 2014 by Oleku Konko
+License: Expat
+
+Files: dist/src/github.com/pborman/uuid/*
+Copyright: 2009,2014 Google Inc. All rights reserved.
+License: BSD-3-clause
+
+Files: dist/src/github.com/stretchr/testify/*
+Copyright: 2012 - 2013 Mat Ryer and Tyler Bunnell
+License: Expat
+
+Files: dist/src/github.com/syndtr/gocapability/*
+Copyright: Copyright 2013 Suryandaru Triandana <syndtr@gmail.com>
+License: BSD-2-clause
+
+Files: dist/src/golang.org/x/crypto/*
+Copyright: 2009 The Go Authors.
+License: BSD-3-clause
+
+Files: dist/src/gopkg.in/flosch/pongo2.v3/*
+Copyright: 2013-2014 Florian Schlachter
+License: Expat
+
+Files: dist/src/gopkg.in/inconshreveable/log15.v2/*
+Copyright: 2014 Alan Shreve
+License: Apache-2
+
+Files: dist/src/gopkg.in/lxc/go-lxc.v2/*
+Copyright: The go-lxc contributors
+License: LGPL-2.1 with static linking exception
+
+Files: dist/src/gopkg.in/tomb.v2/*
+Copyright: 2010-2011 - Gustavo Niemeyer <gustavo@niemeyer.net>
+License: BSD-3-clause
+
+Files: dist/src/gopkg.in/yaml.v2/*
+Copyright: 2011-2014 - Canonical Inc.
+License: LGPL-3 with static linking exception
+
+License: Apache-2
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ .
+ http://www.apache.org/licenses/LICENSE-2.0
+ .
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ .
+ On Debian systems, the complete text of the Apache License 2.0 can
+ be found in "/usr/share/common-licenses/Apache-2.0"
+
+License: BSD-2-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ .
+  Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+ .
+  Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ TO, THE IMPLIED  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ PARTICULAR PURPOSE ARE  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+License: BSD-3-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are
+ met:
+ .
+  Redistributions of source code must retain the above copyright
+  notice, this list of conditions and the following disclaimer.
+ .
+  Redistributions in binary form must reproduce the above copyright
+  notice, this list of conditions and the following disclaimer in the
+  documentation and/or other materials provided with the distribution.
+ .
+  Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+License: Expat
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+ .
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+License: LGPL-3 with static linking exception
+ This software is licensed under the LGPLv3, included below.
+ .
+ As a special exception to the GNU Lesser General Public License version 3
+ ("LGPL3"), the copyright holders of this Library give you permission to
+ convey to a third party a Combined Work that links statically or dynamically
+ to this Library without providing any Minimal Corresponding Source or
+ Minimal Application Code as set out in 4d or providing the installation
+ information set out in section 4e, provided that you comply with the other
+ provisions of LGPL3 and provided that you meet, for the Application the
+ terms and conditions of the license(s) which apply to the Application.
+ .
+ Except as stated in this special exception, the provisions of LGPL3 will
+ continue to comply in full to this Library. If you modify this Library, you
+ may apply this exception to your version of this Library, but you are not
+ obliged to do so. If you do not wish to do so, delete this exception
+ statement from your version. This exception does not (and cannot) modify any
+ license terms which apply to the Application, with which you must still
+ comply.
+ .
+ .
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 3.0 of the License, or (at your option) any later version.
+ .
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library.
+ .
+ On Debian systems, the full text of the GNU Lesser General Public
+ License version 3 can be found in the file
+ `/usr/share/common-licenses/LGPL-3'.
+
+License: LGPL-2.1 with static linking exception
+ This software is licensed under the LGPLv2.1, included below.
+ .
+ As a special exception to the GNU Lesser General Public License version 2.1
+ ("LGPL2.1"), the copyright holders of this Library give you permission to
+ convey to a third party a Combined Work that links statically or dynamically
+ to this Library without providing any Minimal Corresponding Source or
+ Minimal Application Code or providing the installation information,
+ provided that you comply with the other provisions of LGPL2.1
+ and provided that you meet, for the Application the terms and conditions
+ of the license(s) which apply to the Application.
+ .
+ Except as stated in this special exception, the provisions of LGPL2.1 will
+ continue to comply in full to this Library. If you modify this Library, you
+ may apply this exception to your version of this Library, but you are not
+ obliged to do so. If you do not wish to do so, delete this exception
+ statement from your version. This exception does not (and cannot) modify any
+ license terms which apply to the Application, with which you must still
+ comply.
+ .
+ .
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; version 2.1 of
+ the License.
+ .
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ .
+ On Debian systems, the full text of the GNU Lesser General Public
+ License version 2.1 can be found in the file
+ `/usr/share/common-licenses/LGPL-2.1'.

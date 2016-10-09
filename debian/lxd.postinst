@@ -1,0 +1,57 @@
+#!/bin/sh
+set -e
+
+#DEBHELPER#
+
+# Manual init script handling
+if [ -d /run/systemd/system ]; then
+    systemctl --system daemon-reload >/dev/null || true
+    deb-systemd-invoke start lxd.socket >/dev/null || true
+
+    if ! systemctl -q is-active lxd.service; then
+        deb-systemd-invoke restart lxd-containers.service >/dev/null || true
+    fi
+elif  [ -x "/etc/init.d/lxd" ] || [ -e "/etc/init/lxd.conf" ]; then
+    invoke-rc.d lxd start || exit $?
+fi
+
+# Configure dnsmasq
+if [ -z "${2}" ] || dpkg --compare-versions "${2}" lt "2.1-0ubuntu2~"; then
+    if [ -f /etc/dnsmasq.d-available/lxd ] && [ ! -e /etc/dnsmasq.d/lxd ]; then
+        echo "Setting up lxd dnsmasq configuration."
+        mkdir -p /etc/dnsmasq.d
+        ln -s /etc/dnsmasq.d-available/lxd /etc/dnsmasq.d/lxd
+
+        # Try to restart a potential system wide dnsmasq
+        invoke-rc.d dnsmasq restart 2>/dev/null || true
+    fi
+fi
+
+# Print the install message
+if [ -z "${2}" ]; then
+    echo ""
+    echo "To go through the initial LXD configuration, run: lxd init"
+    echo ""
+fi
+
+# Upgrade LXD bridge
+if [ -e "/etc/default/lxd-bridge" ] && [ ! -e "/etc/default/lxd-bridge.upgrade" ]; then
+    echo ""
+    echo "Old bridge configuration detected in /etc/default/lxd-bridge, upgrading"
+    /usr/lib/lxd/upgrade-bridge
+    echo ""
+
+    # Cleanup apparmor config for good measure (lxd-bridge is gone)
+    rm -f /etc/apparmor.d/usr.lib.lxd.lxd-bridge-proxy
+    rm -f /etc/apparmor.d/disable/usr.lib.lxd.lxd-bridge-proxy
+    rm -f /etc/apparmor.d/force-complain/usr.lib.lxd.lxd-bridge-proxy
+    rm -f /etc/apparmor.d/local/usr.lib.lxd.lxd-bridge-proxy
+
+    # Stop LXD again if it should be
+    if [ -d /run/systemd/system ]; then
+        deb-systemd-invoke stop lxd.service >/dev/null 2>&1 || true
+        deb-systemd-invoke restart lxd-containers.service >/dev/null 2>&1 || true
+    fi
+fi
+
+exit 0

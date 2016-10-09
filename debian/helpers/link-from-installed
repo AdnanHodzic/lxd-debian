@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ "x$USE_SHLIBS" = "xtrue" ]; then
+    exit 0
+fi
+mkdir -p ${GOPATH}/src/$(dirname $1)
+ln -sT /usr/share/gocode/src/$1 ${GOPATH}/src/$1

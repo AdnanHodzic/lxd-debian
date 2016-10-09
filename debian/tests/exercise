@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+
+# Setup the environment
+TEMP=$(mktemp -d)
+mv dist $TEMP/
+
+cleanup() {
+    mv $TEMP/dist dist
+}
+
+trap cleanup EXIT HUP INT TERM
+
+# Define lxdbr0 if missing
+lxc network show lxdbr0 --force-local >/dev/null || lxc network create lxdbr0 --force-local
+
+# Run the tests
+export LXD_OFFLINE=1
+(cd test/ && ./main.sh)

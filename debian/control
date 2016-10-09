@@ -1,0 +1,103 @@
+Source: lxd
+Section: admin
+Priority: optional
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Standards-Version: 3.9.8
+Homepage: https://linuxcontainers.org/
+Vcs-Git: https://github.com/lxc/lxd-pkg-ubuntu
+Vcs-Browser: https://github.com/lxc/lxd-pkg-ubuntu
+Build-Depends: debhelper (>= 9),
+               dh-apparmor,
+               dh-golang,
+               dh-systemd,
+               golang-go,
+               golang-any-shared-dev,
+               golang-go.crypto-dev,
+               golang-context-dev,
+               golang-github-gorilla-mux-dev,
+               golang-github-gosexy-gettext-dev,
+               golang-github-mattn-go-colorable-dev,
+               golang-github-mattn-go-sqlite3-dev,
+               golang-github-olekukonko-tablewriter-dev,
+               golang-github-pborman-uuid-dev,
+               golang-gocapability-dev,
+               golang-gopkg-flosch-pongo2.v3-dev,
+               golang-gopkg-inconshreveable-log15.v2-dev,
+               golang-gopkg-lxc-go-lxc.v2-dev,
+               golang-gopkg-tomb.v2-dev,
+               golang-goprotobuf-dev,
+               golang-petname-dev,
+               golang-yaml.v2-dev,
+               golang-websocket-dev,
+               help2man,
+               lxc-dev (>= 1.1.0~),
+               pkg-config,
+               protobuf-compiler
+
+Package: lxd-client
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Built-Using: ${misc:Built-Using}
+Suggests: lxd
+Breaks: lxc1 (<= 2.0.0~rc13-0ubuntu2~)
+Replaces: lxc1 (<= 2.0.0~rc13-0ubuntu2~)
+Description: Container hypervisor based on LXC - client
+ LXD offers a REST API to remotely manage containers over the network,
+ using an image based workflow and with support for live migration.
+ .
+ This package contains the command line client.
+
+Package: lxd
+Architecture: any
+Depends: acl,
+         adduser,
+         dnsmasq-base,
+         ebtables,
+         iptables,
+         liblxc1 (>= 2.0.0~),
+         lxd-client (= ${binary:Version}),
+         lxcfs,
+         rsync,
+         squashfs-tools,
+         uidmap,
+         xz-utils,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Built-Using: ${misc:Built-Using}
+Suggests: criu, lxd-tools
+Description: Container hypervisor based on LXC - daemon
+ LXD offers a REST API to remotely manage containers over the network,
+ using an image based workflow and with support for live migration.
+ .
+ This package contains the LXD daemon.
+
+Package: lxc2
+Architecture: all
+Depends: lxd, lxd-client, ${misc:Depends}
+Priority: extra
+Section: metapackages
+Description: Container hypervisor based on LXC - metapackage
+ LXD offers a REST API to remotely manage containers over the network,
+ using an image based workflow and with support for live migration.
+ .
+ This is a dummy metapackage to install LXD and its client.
+
+Package: lxd-tools
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Built-Using: ${misc:Built-Using}
+Description: Container hypervisor based on LXC - extra tools
+ LXD offers a REST API to remotely manage containers over the network,
+ using an image based workflow and with support for live migration.
+ .
+ This package contains extra tools provided with LXD.
+  - fuidshift - A tool to map/unmap filesystem uids/gids
+
+Package: golang-github-lxc-lxd-dev
+Architecture: all
+Depends: golang-go, lxc-dev, pkg-config, ${misc:Depends}, ${shlibs:Depends}
+Description: Container hypervisor based on LXC - go source
+ LXD offers a REST API to remotely manage containers over the network,
+ using an image based workflow and with support for live migration.
+ .
+ This package contains the source tree of the lxd project.

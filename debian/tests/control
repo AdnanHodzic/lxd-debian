@@ -1,0 +1,16 @@
+Tests: exercise
+Depends: acl,
+         busybox-static,
+         curl,
+         golang-go,
+         jq,
+         git,
+         gettext,
+         make,
+         pep8,
+         pyflakes3,
+         shellcheck,
+         sqlite3,
+         uuid-runtime,
+         @
+Restrictions: needs-root allow-stderr

@@ -1,0 +1,121 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+PKGDIR=debian/tmp
+VERSION=$(shell grep "var Version" $(CURDIR)/shared/flex.go | cut -d'"' -f2)
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+# temporary build path (see http://golang.org/doc/code.html#GOPATH)
+export DH_GOPKG := github.com/lxc/lxd
+export GOPATH := $(CURDIR)/obj-$(DEB_BUILD_GNU_TYPE)
+export USE_EMBEDDED := false
+export USE_SHLIBS := true
+
+ifeq ($(USE_SHLIBS), true)
+export DH_GOLANG_LINK_SHARED := 1
+endif
+
+%:
+	dh $@ --with systemd --buildsystem=golang --with=golang
+
+# Ugly workaround for bundled dependencies
+override_dh_auto_configure:
+	dh_auto_configure
+
+	# dh-golang's configure has copied the source tree into GOPATH. But
+	# because lxd gets some dependencies from the archive and some from
+	# the copies bundled in dist, we have to unpick a bunch of what it has
+	# done and set it up again.
+
+	# Remove the extra copy of dist dh-golang has copied onto GOPATH (or
+	# when dh-golang tries to run go install github.com/lxc/lxd/... things
+	# get very confused).
+	rm -Rf ${GOPATH}/src/github.com/lxc/lxd/dist
+
+	# Move the lxd source aside while we do this.
+	mv ${GOPATH}/src/github.com/lxc/lxd ${GOPATH}/lxd.tmp
+
+	# Clean GOPATH.
+ifeq ($(USE_SHLIBS), true)
+	rm -Rf ${GOPATH}/src/srclibs
+else
+	rm -Rf ${GOPATH}/src
+endif
+
+ifeq ($(USE_EMBEDDED), true)
+	# If we get all dependencies from dist, just copy it onto GOPATH.
+	cp -R dist/src ${GOPATH}
+
+	# But not the symlink for lxd.
+	rm -f ${GOPATH}/src/github.com/lxc/lxd
+else
+	# If not, link depedencies from dist or from where the distro package
+	# has installed it, as appropriate.
+
+	# Packaged dependencies
+	debian/helpers/link-from-installed github.com/dustinkirkland/golang-petname
+	debian/helpers/link-from-installed github.com/golang/protobuf
+	debian/helpers/link-from-installed github.com/gorilla/context
+	debian/helpers/link-from-installed github.com/gorilla/mux
+	debian/helpers/link-from-installed github.com/gorilla/websocket
+	debian/helpers/link-from-installed github.com/gosexy/gettext
+	debian/helpers/link-from-installed github.com/mattn/go-colorable
+	debian/helpers/link-from-installed github.com/mattn/go-sqlite3
+	debian/helpers/link-from-installed github.com/olekukonko/tablewriter
+	debian/helpers/link-from-installed github.com/pborman/uuid
+	debian/helpers/link-from-installed github.com/syndtr/gocapability
+	debian/helpers/link-from-installed golang.org/x/crypto
+	debian/helpers/link-from-installed gopkg.in/flosch/pongo2.v3
+	debian/helpers/link-from-installed gopkg.in/inconshreveable/log15.v2
+	debian/helpers/link-from-installed gopkg.in/lxc/go-lxc.v2
+	debian/helpers/link-from-installed gopkg.in/tomb.v2
+	debian/helpers/link-from-installed gopkg.in/yaml.v2
+endif
+
+	# And put the lxd source back again.
+	mkdir -p ${GOPATH}/src/github.com/lxc/
+	mv ${GOPATH}/lxd.tmp ${GOPATH}/src/github.com/lxc/lxd
+
+override_dh_install:
+	# Install the manpages
+	mkdir -p $(PKGDIR)/usr/share/man/man1/
+	help2man $(PKGDIR)/usr/bin/fuidshift -n "uid/gid shifter" --no-info > $(PKGDIR)/usr/share/man/man1/fuidshift.1
+	help2man $(PKGDIR)/usr/bin/lxc -n "The container hypervisor - client" --no-info > $(PKGDIR)/usr/share/man/man1/lxc.1
+	help2man $(PKGDIR)/usr/bin/lxd -n "The container hypervisor - daemon" --no-info > $(PKGDIR)/usr/share/man/man1/lxd.1
+
+	mkdir -p $(PKGDIR)/usr/share/bash-completion/completions/
+	cp config/bash/lxd-client $(PKGDIR)/usr/share/bash-completion/completions/lxc
+
+	# Prepare dev package
+	rm -Rf $(PKGDIR)/usr/share/gocode/src/github.com/lxc/
+	mkdir -p $(PKGDIR)/usr/share/gocode/src/github.com/lxc/
+	cp -RL ${GOPATH}/src/github.com/lxc/lxd $(PKGDIR)/usr/share/gocode/src/github.com/lxc/
+	rm -Rf $(PKGDIR)/usr/share/gocode/src/github.com/lxc/lxd/dist
+
+	# copy dnsmasq configuration
+	mkdir -p $(PKGDIR)/etc/dnsmasq.d-available
+	cp debian/lxd.dnsmasq $(PKGDIR)/etc/dnsmasq.d-available/lxd
+
+	# Trigger normal dh_install
+	dh_install
+
+override_dh_installinit:
+	# We handle starting and restarting things ourselves
+	dh_systemd_enable -plxd --name=lxd-containers lxd-containers.service
+	dh_installinit -plxd --no-start
+	dh_installinit -plxd --name=lxd-containers --no-start --noscripts
+	dh_systemd_start -plxd lxd-containers.service --no-restart-on-upgrade
+
+	# Update arch-specific paths
+	sed -i "s#@LIBEXECDIR@#/usr/lib/${DEB_HOST_MULTIARCH}#g" debian/lxd/lib/systemd/system/lxd.service
+	sed -i "s#@LIBEXECDIR@#/usr/lib/${DEB_HOST_MULTIARCH}#g" debian/lxd/etc/init/lxd.conf
+	sed -i "s#@LIBEXECDIR@#/usr/lib/${DEB_HOST_MULTIARCH}#g" debian/lxd/etc/init.d/lxd
+
+override_dh_systemd_start:
+	echo "Not running dh_systemd_start"
+
+override_dh_auto_test:
+	echo "The testsuite requires privileges and so is run through autopkgtest"

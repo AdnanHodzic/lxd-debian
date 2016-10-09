@@ -1,0 +1,1807 @@
+lxd (2.4.1-0ubuntu1) yakkety; urgency=medium
+
+  * New upstream bugfix release (2.4):
+    - Fix reported version string (was saying 2.3)
+    - shared: Remove logging import
+    - tests: add a test to make sure we don't accidentally include new deps
+    - extras: Added the command shell to lxc-client bash-completion
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 05 Oct 2016 17:27:56 +0200
+
+lxd (2.4-0ubuntu1) yakkety; urgency=medium
+
+  * New upstream release (2.4) (LP: #1618159):
+    - Add API support for push based migration (with a client acting as relay)
+    - Add a new used_by property to profiles (similar to networks)
+    - Update "lxc profile list" to show a table
+    - Support configuring NAT through "lxd init"
+
+    - lxd/init: Actually add new network to profile
+    - lxd/init: Typo fix
+    - lxd/migration: Don't use ActionScript if it's not available
+    - lxd/network: Allow nil network config
+    - lxd/network: Better deal with partially disabled IPv6
+    - lxd/network: Fix automatic nat settings
+    - lxd/network: Fix IPv6 forwarding logic
+    - lxd/network: Fix rare race condition with sysctl
+    - lxd/network: Fix typo discovered by lintian
+    - lxd/zfs: Extra checks and config for ZFS pools
+    - doc: Add AppVeyor badge (Windows testing)
+    - Makefile: Don't recursively include test deps
+    - shared: Add GetOwner stub for Windows
+    - shared: Generate client certificate with proper extended usage info
+    - test: Fix apparmor version check
+    - test: Fix shellcheck warning
+    - test: Force UTC timezone
+    - test: Make container cleanup more reliable
+
+  * Drop all previous cherry-picks, now upstream.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 04 Oct 2016 21:19:11 +0200
+
+lxd (2.3-0ubuntu7) yakkety; urgency=medium
+
+  * Ignore rm failures in postrm (caused by mounted ZFS/LVM) (LP: #1629992)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 03 Oct 2016 16:09:00 -0400
+
+lxd (2.3-0ubuntu6) yakkety; urgency=medium
+
+  * Fix typo in migration script and make shellcheck happier. (LP: #1629766)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 03 Oct 2016 01:04:42 -0400
+
+lxd (2.3-0ubuntu5) yakkety; urgency=medium
+
+  * Make it possible to run the bridge migration script again on failure.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sun, 02 Oct 2016 14:36:08 -0400
+
+lxd (2.3-0ubuntu4) yakkety; urgency=medium
+
+  * Cherry-pick upstream fixes:
+    - Fix typo discovered by lintian
+    - network: Allow nil network config
+    - network: Fix rare race-condition with sysctl
+    - network: Fix IPv6 forwarding logic
+    - test: Make container cleanup more reliable
+    - network: Properly catch ENOENT
+    - network: Better deal with partially disabled IPv6 (LP: #1629540)
+  * Fix invalid upstart job
+  * Bugfix for migration script
+    - Don't print error on missing lxd-bridge script
+    - Don't attempt to setup IPv6 if the host kernel has it disabled
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sat, 01 Oct 2016 20:41:41 -0400
+
+lxd (2.3-0ubuntu3) yakkety; urgency=medium
+
+  * Add a versioned dependency on lxd-client to lxd as we need it for
+    the bridge configuration upgrade script.
+  * Update bridge upgrade script to not mess with the user's LXD client.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 29 Sep 2016 20:29:17 -0400
+
+lxd (2.3-0ubuntu2) yakkety; urgency=medium
+
+  * Fix upgrade-bridge script to properly deal with systems that have
+    LXD disabled (including chroots).
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 29 Sep 2016 12:23:09 -0400
+
+lxd (2.3-0ubuntu1) yakkety; urgency=medium
+
+  * New upstream release (2.3)
+    - Introduce the new network management API
+    - Support for AppArmor namespaces and profile stacking
+    - Introduce a new storage.lvm_mount_options daemon configuration option
+    - Rework log message priorities and add more context to log messages
+    - "lxc info" now shows the remote name in its output
+    - The client now includes the remote name in error messages
+
+    - apparmor: Be less restrictive when unprivileged
+    - apparmor: create an apparmor namespace for each container
+    - doc: Fix rest-api for PATCH addition
+    - doc: Fix the table sytle of environment.md
+    - extras: Containers state checking in bash completion
+    - extras: Fixed container convert from LXC to LXD
+    - extras: Update bash completion for current options
+    - lxc: Drop unused httpAddr property
+    - lxc/exec: Document lxc exec -- args
+    - lxc/file: Make the target directory on recursive pull
+    - lxd/db: Don't try to backup the database when running tests
+    - lxd/db: Fix int64 handling
+    - lxd/images: Tweak squashfs for low-memory systems
+    - lxd/init: Change validation functions for consistency
+    - lxd/init: Enable compression on new zfs pools
+    - lxd/log: Add format wrappers for log functions
+    - lxd/log: Add wrappers for log functions
+    - lxd/log: Transition to new wrappers
+    - lxd/migration: Support copying across different CoW based backend types
+    - lxd/migration: Also show warnings on c/r errors
+    - lxd/migration: Preserve snapshot configuration during copy
+    - lxd/network: Detect bonds
+    - lxd/network: Detect openvswitch
+    - lxd/network: Fix networkIsInUse
+    - lxd/network: Move and rename isOnBridge
+    - shared: Export type checking functions
+    - shared: fuidshift: Expand symlinks to last path component
+    - shared: New RunCommand wrapper function
+    - snappy: Add /snap/bin to PATH if present
+
+  * Cherry-pick from upstream:
+    - init: Typo fix
+    - init: Actually add new network to profile
+    - test: Fix shellcheck warning
+    - test: Force UTC timezone
+    - test: Fix apparmor version check
+
+  * Update dependencies:
+    - No longer depend on netcat
+    - Add dependency on ebtables
+
+  * Switch to built-in network management
+    - Drop all the debconf bridge handling code
+    - Drop all the old bridge related scripts
+    - Introduce bridge migration code and run it from postinst
+    - Update tests for network change
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 28 Sep 2016 01:44:50 -0400
+
+lxd (2.2-0ubuntu1) yakkety; urgency=medium
+
+  * New upstream release (2.2)
+    - client: Add a "manpage" command
+    - client: Add a "rename" alias
+    - client/file: Recursive file push/pull (-r) (LP: #1531364)
+    - client/file: Support recursive directory creation (-p)
+    - client/info: Add cpu usage
+    - client/publish: Allow overriding compression algorithm
+    - daemon: Make a database backup on schema updates
+    - daemon/container: Expose CPU usage
+    - daemon/container: Initial implementation of recursive file push/pull
+    - daemon/image: Allow overriding compression algorithm
+    - daemon/init: Ask for images.auto\_update\_interval
+    - daemon/storage: Add new storage.zfs\_use\_refquota option
+    - client/exec: Use os.LookupEnv from go 1.5 to find environment vars
+    - client/help: Change lxc help to go to stdout
+    - daemon: Consistently handle name conflicts
+    - daemon/container: Allow unsetting any config key
+    - daemon/container: Fix USB transposed major/minor
+    - daemon/container: Handle xattrs on publish
+    - daemon/container: Retry generating petnames on conflict
+    - daemon/container: Error on "restart" without force of a paused container
+    - daemon/container: Rework container operation locking
+    - daemon/container: Try to remove the usb bus dir after device disconnect
+    - daemon/container: Various USB hotplug fixes
+    - daemon/dir: Copy everything on container copy
+    - daemon: Do our own socket activation
+    - daemon/image: Fix support for lzma alone file format
+    - daemon/init: Change default host to all (::)
+    - daemon/init: Default to "dir" when "zfs" isn't available (LP: #1619958)
+    - daemon/init: Fix listed default value for ZFS pool (LP: #1619959)
+    - daemon/init: Use more intelligent logic for partition sizing
+    - daemon/profile: Cleaner error on existing profile name
+    - daemon/profile: Properly cleanup on profile removal
+    - doc: Add txqueuelen tweak
+    - doc: Clarify that user\_subvol\_rm\_allowed is needed for btrfs nesting
+    - doc: Fix typos in production-setup.md
+    - doc: Rename api\_extensions to api-extensions
+    - i18n: Update po files and Japanese translation
+    - lxd-bridge: Fix crash in lxd-bridge-proxy
+    - tests: Fix race in alias test
+    - tests: Make TestReaderToChannel transfer smaller
+    - tests: Only check leftovers on active LXD
+
+  * Update debian/copyright
+    - Drop godbus
+    - Drop go-systemd
+    - Drop yaml.v1
+
+  * Update debian/control
+    - Drop dependency on go-systemd
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 13 Sep 2016 22:38:18 -0400
+
+lxd (2.1-0ubuntu4) yakkety; urgency=medium
+
+  * Fix powerpc build by using golang-any-shared-dev instead of
+    golang-go-shared-dev.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 08 Sep 2016 17:39:41 -0400
+
+lxd (2.1-0ubuntu3) yakkety; urgency=medium
+
+  [ Michael Hudson-Doyle ]
+  * Link against go shared library packages. (LP: #1508122)
+
+  [ Stéphane Graber ]
+  * Bump standard to 3.9.8
+  * Drop deprecated XS-Testsuite option
+  * Drop a whole lot of lintian overrides following shlibs switch.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 08 Sep 2016 16:03:07 -0400
+
+lxd (2.1-0ubuntu2) yakkety; urgency=medium
+
+  * Properly handle purge. (LP: #1614621)
+  * Configure system-wide dnsmasq not to touch lxdbr0. (LP: #1613820)
+  * Stop lxd.socket on package remove. (LP: #1577001)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 29 Aug 2016 17:29:27 -0400
+
+lxd (2.1-0ubuntu1) yakkety; urgency=medium
+
+  * New upstream release (2.1)
+    - All the bugfixes listed as part of LXD 2.0.1, 2.0.2, 2.0.3 and 2.0.4
+
+    - client: Add a lxc shell alias by default
+    - client: Build unix-like aliases directly into LXC
+    - client: Generate the client certificate on-demand
+    - client/copy: Allow additional profiles and config (LP: #1585307)
+    - client/copy: Pick a random name if not specified (LP: #1585308)
+    - client/image: Add --format and json output
+    - client/image: Allow deleting multiple images at once
+    - client/list: Add support for config key columns
+    - client/profile: lxc profile apply is now lxc profile assign
+    - client/profile: New lxc profile add and lxc profile remove sub-commands
+    - client/version: Do not show the version command by default
+    - daemon: Add a global core.https_allowed_credentials key
+    - daemon: Implement ETag support for all PUT calls
+    - daemon: Implement PKI authentication
+    - daemon: Implement the PATCH method for all endpoints that have PUT
+    - daemon/container: Add config key for container force shutdown timeout
+    - daemon/container: Add some seccomp knobs
+    - daemon/container: Add support for the "usb" device type
+    - daemon/container: Record the last used date for containers
+    - daemon/zfs: Allow forcing snapshot removal through configuration
+    - tests: Fix for newer shellcheck
+    - lxd-bridge: Fail on dnsmasq failure (LP: #1613815)
+    - c/r: switch to the new ->migrate API
+    - c/r: use liblxc's new preserves_inodes feature
+    - c/r: bump ghost limit
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 17 Aug 2016 19:31:36 -0400
+
+lxd (2.0.4-0ubuntu2) yakkety; urgency=medium
+
+  * Cherry-pick from upstream:
+    - 0002-Fix-for-newer-shellcheck (Fixes adt with yakkety's shellcheck)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 16 Aug 2016 15:00:49 -0400
+
+lxd (2.0.4-0ubuntu1) yakkety; urgency=medium
+
+  * New upstream bugfix release (2.0.4)
+    - /dev/net/tun is now a default device (always present)
+    - lxd-bridge: dnsmasq is now configured with IPv6 name resolution
+    - lxd-bridge: iptables rules now have a comment
+    - "lxd init" now comes with reasonable defaults
+    - The "images:" remote now uses simplestreams on new installations
+    - "lxc image export" now always uses the image fingerprint as filename
+    - Import progress is now reported for URL imports in "lxc image import"
+    - apparmor: Add feature detection and clean things a bit
+    - apparmor: Don't depend on the LXC apparmor profile
+    - apparmor: Rename main two chunks of rules
+    - apparmor: Setup a more modular apparmor profile
+    - client: Don't share http client with go routines
+    - client: Error when trying to remove a non-existent device (LP: #1612388)
+    - client: Fix API info reporting in "lxc info"
+    - client: Fix spelling: permisson -> permission
+    - client: Make client.websocket a public API
+    - client: Make --version option visible
+    - client: Relax constraints on WebsocketRecvStream args
+    - client: Use named args for actionCmds
+    - client/finger: Remove unused field from finger cmd
+    - client/image: Fix image import from URL
+    - client/list: fix concurrent read/write
+    - client/list: Fix error handling and race in "lxc list"
+    - client/pause: Add some additional help to lxc pause
+    - client/profile: Add "lxc profile unset" to help message (LP: #1592529)
+    - daemon/container: Actually handle containers list error
+    - daemon/container: Add sanity checks for common problems
+    - daemon/container: Alphabetize device processing
+    - daemon/container: Better errors when sanity checking devices
+    - daemon/container: Better handle missing or invalid device types
+    - daemon/container: Document and validate limits.*.priority values
+    - daemon/container: Document image export target behavior and fix bugs
+    - daemon/container: Don't unfreeze a container on stop
+    - daemon/container: Fix flag name in init error message
+    - daemon/container: Fix limits.disk.priority when set to 0 (LP: #1603982)
+    - daemon/container: Fix nic hotplug with openvswitch
+    - daemon/container: Fix unix-char/unix-block in nested containers
+      (LP: #1574158)
+    - daemon/container: Improve check for invalid physical devices
+    - daemon/container: Remember the return code in the non wait-for-websocket
+    - daemon/container: Remove unused "name" argument from UnixDevice
+    - daemon/container: Return more error information back to the user
+    - daemon/container: Sort disk devices by their path before their names
+    - daemon/container: Unfreeze frozen container on shutdown
+    - daemon/db: Don't fail db upgrade if $LXD_DIR/containers doesn't exist
+      (LP: #1602025)
+    - daemon/db: remove fuse device from docker profile
+    - daemon/migration: fix tempdir handling
+    - daemon/profile: Prevent using invalid profile names (LP: #1612228)
+    - daemon/zfs: Fix ZFS volume size on 32bit architectures
+    - daemon/zfs: Only delete copy- snapshots on delete
+    - daemon/zfs: Remove subvolume in zfs.ImageCreate error flow
+    - doc: Add /dev/net/tun and /dev/fuse to docs
+    - doc: Added command to install squashfs-tools in README.md
+    - doc: Document config_get in pongo templates
+    - doc: Fixed errors on api examples with curl
+    - doc: Initial documentation for production use of LXD
+    - doc: Shuffle packages a bit in README.md
+    - lxd-bridge-proxy: Remove unused code
+    - Makefile: Also have "make dist" run multiple go get
+    - scripts: Make lxc-to-lxd work inside virtualenv
+    - simplestreams: Fix size reporting
+    - simplestreams: Handle images without labels
+    - simplestreams: List images available as both squashfs and tar.xz
+    - simplestreams: Properly deal with unset expiry
+    - simplestreams: Set proper user-agent
+    - simplestreams: Use the hashes in the right order
+
+  * Refresh debian/copyright to match vendor directory (dist/).
+    Note that this bundled code isn't used for the main archive builds.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 16 Aug 2016 00:23:05 -0400
+
+lxd (2.0.3-0ubuntu2) yakkety; urgency=medium
+
+  * Cherry-pick squashfs fix from upstream:
+    - simplestreams: list images available as both squashfs and tar.xz
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 30 Jun 2016 13:56:29 -0400
+
+lxd (2.0.3-0ubuntu1) yakkety; urgency=medium
+
+  * New upstream bugfix release (2.0.3)
+    - extras: Better bash completion coverage
+    - client/delete: Allow -f as a shortcut of --force
+    - client/info: Include the certificate fingerprint in server info
+      (Issue #2098)
+    - client/info: Show remote in the --show-log example provided on error
+    - core: Add squashfs support as needed by newer Ubuntu images
+    - core: Tweak TLS cipher list a bit to allow browsers to talk to LXD
+      (Issue #2034)
+    - daemon/container: Setup /dev/fuse by default
+    - client: Better handle connection errors
+    - client: Check all alias args to support subcommand aliases (Issue #2095)
+    - client/file: Don't modify file permissions on edit
+    - client/image: Use the daemon provided fingerprint on image copy
+      (Issue #2162)
+    - client: Normalize the URLs in the client (Issue #2112)
+    - client/remote: Fix a panic in 'remote add' (Issue #2089)
+    - client/remote: Fix parsing of :
+    - core: Better handle PEM decoding errors (Issue #2119)
+    - core: Check for zero byte send in ReaderToChannel (Issue #2072)
+    - core: Fix a concurrent websocket write crash
+    - core: Use default buffer size for WebsocketUpgrader
+    - daemon: Add missing linebreak to lxd help
+    - daemon/api: Set Location on sync POST requests (Issue #2092)
+    - daemon/btrfs: Fix failure to restore on btrfs (Issue #2058)
+    - daemon/certificate: Fail to add an existing certificate
+    - daemon/config: Allow "none" as compression algorithm (regression fix)
+    - daemon/container: Add target path to rootfs tarball in image
+      export (Issue #1980)
+    - daemon/container: Better handle bind mounts
+    - daemon/container: GET of a nonexistent file now 404s (Issue #2059)
+    - daemon/container: Make devices cgroup config more readable
+    - daemon/containers: Improve error message on disk setup failure
+    - daemon/container: Use defer to undo changes on failed update
+    - daemon/db: Don't try to chmod zfs.img when testing db upgrades
+    - daemon/db: Don't try to update /var/lib/lxd/containers in go tests
+    - daemon/init: Actually unset the storage keys
+    - daemon/lvm: Don't call lvextend with recent LVM versions
+    - daemon/migration: Setup some buffering for zfs/btrfs send
+    - daemon/migration: Simplify checkpoint/restore code everywhere
+    - daemon/migration: switch to the new LXC migrate API
+    - daemon/zfs: Improve block device detection
+    - daemon/zfs: Mount if not mounted (Issue #1888)
+    - doc: Clarify ZFS snapshot shortcomings (Issue #2055)
+    - doc: Drop JSON example from configuration.md
+    - doc: Fix certificates JSON examples to cover all fields
+    - doc: Fix typo in "unix-block" description
+    - doc: Improve shared folder documentation (README) (Issue #2123)
+    - lxd/patches: Add support for one-time patches
+      (separate from DB schema updates)
+    - Makefile: go get has become worse, now need 3 runs
+    - Makefile: Update repository URL for xgettext-go
+    - migration: Consolidate error handling
+    - test: 201 is a valid return code for alias creation
+    - test: Add a test for ReaderToChannel
+    - test: Add test for "lxc file edit" target file owner and permission
+  * Add dependency on squashfs-tools (for new Ubuntu images).
+  * Fix typo in debconf question. (LP: #1584024)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 29 Jun 2016 17:42:49 -0400
+
+lxd (2.0.2-0ubuntu1) yakkety; urgency=medium
+
+  * New upstream security release (2.0.2) (LP: #1584230)
+    - CVE-2016-1581: Fix bad permissions on zfs.img
+    - CVE-2016-1582: Fix bad container permisisons after remap
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 30 May 2016 14:16:21 -0400
+
+lxd (2.0.1-0ubuntu1) yakkety; urgency=medium
+
+  * New upstream bugfix release (2.0.1)
+    - Don't fail to start when shmounts can't be mounted, instead fail
+      container startup
+    - Invalidate the simplestreams cache on proxy change
+    - Write the container's config file on start to the log path directly
+    - Fix crash in list due to empty responses (Issue #1903)
+    - Fail when removing non-existent profiles (Issue #1886)
+    - Document --alias to image import (Issue #1900)
+    - Fix "lxc start" and "lxc stop" options (stateful/stateless)
+    - Give better error on invalid source stream (simplestreams)
+    - Add basic REST API usage example to README.md
+    - Fix typo in lxc stop --help
+    - Convert lxc-to-lxd to stable supported pylxd API (Issue #1901)
+    - Properly log image update failures
+    - Better validate and rollback bad images (Issue #1913)
+    - Send operation return value through SmartError
+    - Fix basic filtering in lxc list (Issue #1917)
+    - Tell the user how to launch a container on first start (Issue #1931)
+    - Redirect "remote" to "remote:" when not conflicting (Issue #1931)
+    - Don't load the LXC config for snapshots (Issue #1935)
+    - list: Allow filtering by unset key (Issue #1917)
+    - Fix example in lxc launch
+    - Update Japanese translation and other po files
+    - Fall back to cpuset.cpus on older kernels (Issue #1929)
+    - Properly validate the server configuration keys (Issue #1939)
+    - Fix daemonConfig handling of storage
+    - Don't remove config file on forkmigrate
+    - Fix config handling following config validation change
+    - Fixed Markdown syntax in documentation
+    - Don't fail early when removing disks (Issue #1964)
+    - Don't recursively delete devices
+    - Don't fail when some unix devices fail to be deleted
+    - Use the same config checks for unix-char and unix-block
+    - Allow removing when fs object no longer exists (Issue #1967)
+    - Do proper logfile expiry (Issue #1966)
+    - Make logging a bit more consistent
+    - Don't ignore zfs errors
+    - Properly update the mode, uid and gid on existing files (Issue #1975)
+    - Detect invalid certificate files (Issue #1977)
+    - Fix broken apparmor status check
+    - Allow on/off as boolean strings
+    - Properly validate the container configuration keys (Issue #1940)
+    - Don't mask rsync transfer errors
+    - Move execPath to a global variable
+    - Use custom netcat instead of nc -U for rsync over websocket (Issue #1944)
+    - Fix wrong state dir path in migration
+    - Don't fail deleting images when the storage delete fails
+    - Improve messages in the Japanese translation
+    - Add more checks for the criu binary
+    - Rework (live) migration tests
+    - Make it explicit in documentation that devices on create are optional
+    - Properly record the source of all image copies (Issue #2010)
+    - Don't mark containers as ERROR while being created (Issue #1988)
+    - Cleanup events sent for operations (Issue #1992)
+    - Fix ZFS refcounting issues (Issue #1916 and Issue #2013)
+    - Propagate snapshot config when copying a snapshot (Issue #2017)
+    - Implement lxc config show for snapshots
+    - Add Unix socket example to REST API usage
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 16 May 2016 17:57:46 -0400
+
+lxd (2.0.0-0ubuntu4) xenial; urgency=medium
+
+  * Only start lxd after network-online.target has been reached.
+    This avoids a cloud-init race at boot time and also makes it more
+    likely for whatever IP address or bridge LXD needs to have been properly
+    setup. (LP: #1569064)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 14 Apr 2016 16:03:02 -0400
+
+lxd (2.0.0-0ubuntu3) xenial; urgency=medium
+
+  * Raise the systemd timeout to match the LXD startup timeout.
+    This is needed on systems where TLS certificate generation takes a
+    long time. (LP: #1569698)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 13 Apr 2016 12:43:54 -0400
+
+lxd (2.0.0-0ubuntu2) xenial; urgency=medium
+
+  * Add apparmor profile for lxd-bridge-proxy (profile by Simon Deziel).
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 11 Apr 2016 22:04:25 -0400
+
+lxd (2.0.0-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0) (LP: #1548489):
+    - client: Add a json format option to "lxc list".
+    - client: Recommend running lxd init
+    - lxd: Allow setting security.privileged when nested
+    - client: Filter on expanded config rather than local config
+    - client: Fix wrong mode being passed by file push
+    - client: Show the snapshot name instead of the path
+    - client: Tweak help messages
+    - client: Update Japanese translation
+    - core: Don't let umask mess with modes
+    - core: Fix uid, gid and mode of retrieved files
+    - core: zfs: Clean any leftover snapshot
+    - core: zfs: Ignore non-LXD paths in user count
+    - doc: Mark API as stable for release
+  * lxd-bridge: Don't fail on missing /etc/default/lxd-bridge
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 11 Apr 2016 15:31:52 -0400
+
+lxd (2.0.0~rc9-0ubuntu5) xenial; urgency=medium
+
+  * Fix debconf "seen" detection logic.
+  * Update lintian overrides.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sun, 10 Apr 2016 23:21:46 -0400
+
+lxd (2.0.0~rc9-0ubuntu4) xenial; urgency=medium
+
+  * More lxdbr0 tweaks:
+    - Fix logic so that on first "dpkg-reconfigure" run, IPv4 and IPv6
+      are actually set to "yes". (LP: #1567874)
+    - Add an extra check to the IPv4 and IPv6 subnet generators to
+      attempt to ping the usual default gateways on the subnet and use another
+      subnet if we get an answer.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 08 Apr 2016 13:52:46 -0400
+
+lxd (2.0.0~rc9-0ubuntu3) xenial; urgency=medium
+
+  * More lxdbr0 tweaks:
+    - Generate a random IPv4 and IPv6 subnet and pre-fill the questions
+      with it at interactive configuration time. (LP: #1567440)
+    - Point users towards dpkg-reconfigure if lxd init can't be run.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 07 Apr 2016 15:26:33 -0400
+
+lxd (2.0.0~rc9-0ubuntu2) xenial; urgency=medium
+
+  * Fix the missing lxdbr0 bridge when running the tests.
+  * Make sure the user is asked for input again when an invalid value is
+    detected on upgrade.
+  * Empty the bridge name when switching from a configured bridge to an
+    existing one.
+  * Suggest an IPv6 site-local subnet rather than an unused global one.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 07 Apr 2016 09:13:02 -0400
+
+lxd (2.0.0~rc9-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~rc9):
+    - The 1.0 API is now considered stable
+    - A new lxd-benchmark tool has been added as part of the testsuite
+    - The client has been translated into Japanese
+    - core: Check that the target is set on alias update
+    - core: Don't use the cpu map from /proc/self/status
+    - core: Fix all non-gzip compression algorithms
+    - core: Improve ZFS reliability and performance
+    - core: lxcbr0 is no more, replace it by lxdbr0
+    - core: Prevent container actions while in setup mode
+    - core: Set lxc.rootfs.bdev (performance improvement)
+    - core: Stop the storage code after we're done remapping
+    - core: Support holes in CPU usage (disabled CPUs)
+    - core: Throttle the event listeners
+    - core: Workaround bad go-lxc Start() behavior
+    - extra: Update bash completion to use --fast (performance improvement)
+    - list: Don't crash on missing disk or network info
+    - lxd-bridge: Don't set link-local without a proxy
+    - lxd-bridge-proxy: Bump port number to 13128
+    - lxd-bridge: Run dnsmasq as the lxd user instead of the
+      non-existing lxd-dnsmasq user
+    - main: Have ActiveIfNeeded trigger if we have running containers
+    - specs: Images are auto-updated every 6 hours
+    - tests: Don't rely on the filesystem so much
+
+  * Drop patches (now upstream):
+    - 0002-lxd-bridge-proxy-Bump-port-number-to-13128.patch
+    - 0003-Run-lxd-bridge-s-dnsmasq-as-the-lxd-user.patch
+    - 0004-lxd-bridge-Don-t-set-link-local-without-a-proxy.patch
+
+  * Silence some more lintian warnings
+  * Create /var/lib/lxd-bridge if missing at bridge startup time
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 06 Apr 2016 23:30:54 -0400
+
+lxd (2.0.0~rc8-0ubuntu7) xenial; urgency=medium
+
+  * More lxdbr0 tweaks:
+    - Update wording of the initial question. (LP: #1566764)
+    - Refuse empty output for questions needing a value.
+    - Trigger lxd (through lxd-containers.service) so that it starts
+      again if it should be running.
+    - Make it possible to disable the profile update part of the lxdbr0
+      integration while keeping a working bridge.
+    - Fix preinst so that reading an empty /etc/default/lxd-bridge works.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 06 Apr 2016 15:56:55 -0400
+
+lxd (2.0.0~rc8-0ubuntu6) xenial; urgency=medium
+
+  * Change the suggested lxdbr0 IPv4 subnet to 10.0.8.0/24
+    The old suggested value of 10.0.4.0/24 happens to be what nested
+    containers would usually pick for their lxcbr0 bridge, causing yet
+    another network masking issue for users who don't check beforehands.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 06 Apr 2016 09:46:39 -0400
+
+lxd (2.0.0~rc8-0ubuntu5) xenial; urgency=medium
+
+  * Update dependencies:
+    - Depend on dnsmasq-base for lxd-bridge
+    - Depend on iptables for lxd-bridge
+    - Drop dependency on python3 (lxd-images is no more)
+    - Drop dependency on gnupg (lxd-images is no more)
+  * Recommend "lxd init" at installation time rather than dpkg-reconfigure.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 05 Apr 2016 17:31:07 -0400
+
+lxd (2.0.0~rc8-0ubuntu4) xenial; urgency=medium
+
+  * Debconf configuration of lxdbr0
+    - Always set the proxy configuration to something reasonable
+    - Recommend running dpkg-reconfigure -p medium lxd
+    - Clarify the dnsmasq question
+    - Lower the proxy question from medium to low
+    - The default value for IPv4 NAT should be true
+  * Use archive copy of golang-gopkg-lxc-go-lxc.v2-dev (LP: #1507156)
+  * Fix uninstall when lxd isn't running (LP: #1566253)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 05 Apr 2016 15:06:43 -0400
+
+lxd (2.0.0~rc8-0ubuntu3) xenial; urgency=medium
+
+  * Switch from lxcbr0 to lxdbr0.
+    - Show upgrade warning telling users to configure lxdbr0.
+    - Force re-application of the bridge settings to move everyone off lxcbr0.
+    - Drop dependency on lxc (no longer needed).
+    - Properly stop/start the lxd bridge during reconfigure on systemd systems.
+    - Remove compatibility code.
+    - Add more details to existing debconf templates.
+    - Fix typo in cidr function name.
+    - Don't parse an empty netmask as a CIDR mask of 0.
+    - Fix logic when disabling IPv4 or IPv6 networking.
+    - Print a warning message about LXD networking from postinst.
+    - Make the tests depend on lxc1 (upstream testsuite uses lxcbr0)
+    - Cherry-pick lxd-bridge fixes from upstream:
+      + lxd-bridge-proxy: Bump port number to 13128
+      + Run lxd-bridge's dnsmasq as the lxd user
+      + lxd-bridge: Don't set link-local without a proxy
+    - Apply distro patch:
+      + Have lxd init offer to call dpkg-reconfigure
+
+    The reason for the switch away from lxcbr0 is to avoid masking the
+    10.0.3.0/24 subnet on a whole lot of Ubuntu systems which may not even
+    be using containers.
+
+    The new bridge provides basic http connectivity through a proxy out
+    of the box and requires manual configuration for anything else.
+
+    To reconfigure the bridge, run: dpkg-reconfigure lxd
+
+  * Bump standard to 3.9.7, no change required.
+  * Update systemd unit to not limit the number of threads.
+  * Switch to archive copies of:
+    - golang-gopkg-flosch-pongo2.v3-dev
+    - golang-gopkg-inconshreveable-log15.v2-dev
+  * Fix new lintian warnings:
+    - Add Documentation field to systemd units
+    - Change Vcs-Git to https
+    - Update overrides (typos and golang stuff)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 04 Apr 2016 22:31:01 -0400
+
+lxd (2.0.0~rc8-0ubuntu2) xenial; urgency=medium
+
+  * Use the archive version of gorilla-websocket.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 01 Apr 2016 14:42:49 -0400
+
+lxd (2.0.0~rc8-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~rc8):
+    - The LVM volume size is now configurable through configuration
+      rather than environment variables
+    - "lxc image alias list" now supports filtering
+    - Fix initial exec size
+    - Fix wrong packets sent value
+    - Workaround RemoveAll failures on long paths
+    - doc: Fix bad markdown
+    - Apply all templates at container startup time
+    - simplestreams: cleanup
+    - Use fork for command execution
+    - Failure to unload the apparmor profile isn't fatal
+    - Prevent deadlock on container stop failure
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 31 Mar 2016 22:13:46 -0400
+
+lxd (2.0.0~rc7-0ubuntu2) xenial; urgency=medium
+
+  * Use the archive version of golang-github-mattn-go-colorable-dev.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 31 Mar 2016 15:42:22 -0400
+
+lxd (2.0.0~rc7-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~rc7):
+    - "lxc info" now reports resource consumption
+    - Improved bash completions
+    - Implement container creation from image properties
+    - exec: remove dead code path
+    - exec: send initial window size
+    - exec: client: don't always send window size
+    - exec: only access terminal size in interactive mode
+    - docs: s/initial/Initial
+    - Tests: Don't translate lxc output for parsing it.
+    - Workaround a URL parser issue
+    - Clarify the ZFS restore error
+    - lxd-bridge: Don't fail due to missing IPv6
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 28 Mar 2016 22:20:54 -0400
+
+lxd (2.0.0~rc6-0ubuntu2) xenial; urgency=medium
+
+  * Turn on lxdbr0. This upload enables the debconf questions for lxdbr0
+    as well as the needed init scripts and handlers.
+
+    It however does NOT change the default bridge over BY DEFAULT.
+    The default bridge will only be switched to lxdbr0 if the user
+    manually edits /etc/default/lxd-bridge or runs "dpkg-reconfigure lxd".
+
+    This is a temporary setup to allow all downstreams to adjust for the
+    new world where the lxdbr0 bridge comes with a link-local address only
+    and requires configuration.
+
+    Once we are satisfied those downstreams have updated their code to
+    support this new bridge, we will remove the dependency on the "lxc1"
+    package and switch everyone over to the lxdbr0 with a suitable
+    upgrade-only warning and initial debconf run (so users can minimize the
+    impact of the switch).
+
+    This change includes:
+     - Introduce debconf configuration script to generate
+       /etc/default/lxd-bridge
+     - New lxd-bridge.service systemd unit
+     - New update-profile and lxd-bridge.start helper scripts, used to
+       only apply LXD configuration changes when needed.
+     - Update to the sysvinit and upstart jobs to run the needed
+       scripts. Those two "legacy" init systems do not get the full treatment
+       of a separate init script for the bridge, but do get all the features
+       nevertheless.
+  * Fix lxd.service start condition to start after lxc-net.service
+    rather than lxc.service.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 23 Mar 2016 23:49:29 -0400
+
+lxd (2.0.0~rc6-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~rc6):
+    - lxd init: clarify no port is wanted with server address
+    - lxd init: accept empty trust password
+    - lxd init: recommend port 8843
+    - README: document composing docker and default profiles
+    - Rename IsMock to MockMode
+    - Cleanup daemon initialization
+    - Remove the startDaemon function
+    - Add a setup mode allowing to delay part of startup
+    - Cleanup function names in main.go
+    - Improve waitready
+    - Implement device set/unset
+    - Fix permissions of new devices nodes (LP: #1560752)
+    - Allow the bridge to be brought down even if disabled
+    - Some more lxd-bridge fixes
+    - lxd-bridge: Make shellcheck happy
+    - Implement "lxc config device get"
+    - List broken containers (with state set to ERROR)
+  * Update lxd.service to start after lxc-net.service (if present)
+  * Update the debconf templates (planning for lxdbr0 configuration)
+  * Fix bash completion profile
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 23 Mar 2016 22:40:18 -0400
+
+lxd (2.0.0~rc5-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~rc5):
+    - Fix DELETE /1.0/images/<fingerprint> to actually be Async. This is a
+      minor API change to match the specification and will break backward
+      compatibility with older clients (only when performing image deletion).
+    - The deprecated lxd-images script has now been entirely removed.
+    - Improve error reporting on image POST
+    - Fix error handling logic around snapshots
+    - Fix container shutdown to actually happen in parallel
+    - Document 'auto\_update' parameter for 'POST /1.0/images'
+    - stateful start: rework behavior
+    - stateful snapshots: rework behavior
+    - Bind-mount mqueue if unprivileged
+    - update documentation on using docker in containers
+    - bump the monitor timeout to 5s
+    - lxd-bridge: Some tweaks
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 21 Mar 2016 23:47:43 -0400
+
+lxd (2.0.0~rc4-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~rc4):
+    - Support for recursive bind-mounts (recursive property on disk entries)
+    - Add a new "ERROR" state for containers, used to indicate a
+      communication problem with LXC
+    - Make it possible to have templates only apply for non-existing
+      files (create_only property)
+    - All the specifications have been updated and moved to the doc/ directory
+    - /dev/lxd access is now restricted to uid 0 in the container
+    - devices client: only print success message when successful
+    - Fix devlxd failing to detect container
+    - Have "device show" print yaml
+    - specs: Clarify image handling
+    - specs: Remove command-line-user-experience
+    - specs: Remove dia database diagram
+    - specs: Clarify the daemon spec
+    - specs: Update /dev/lxd spec to match current state
+    - specs: Update environment variables list
+    - specs: Update SSL spec to match current state
+    - specs: Re-format the migration document
+    - specs: Update requirements
+    - specs: Update storage backend spec
+    - specs: Update userns to match reality
+    - docker profile: add the apparmor enabled overmount
+    - More strictly parse remote URLs
+    - Fix devlxd access outside of an exec session
+    - Return better errors for public and simplestream remotes
+    - Block sys_rawio by default
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 16 Mar 2016 22:57:18 -0400
+
+lxd (2.0.0~rc3-0ubuntu4) xenial; urgency=medium
+
+  * Use golang-gettext-dev from the archive.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 15 Mar 2016 23:28:15 -0400
+
+lxd (2.0.0~rc3-0ubuntu3) xenial; urgency=medium
+
+  * Use /etc/environment in the init scripts.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 15 Mar 2016 21:29:31 -0400
+
+lxd (2.0.0~rc3-0ubuntu2) xenial; urgency=medium
+
+  * debian/tests/control: Fix pyflakes → pyflakes3 test dep.
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Tue, 15 Mar 2016 11:03:58 +0100
+
+lxd (2.0.0~rc3-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~rc3):
+    - GET /1.0/containers/NAME/snapshots/SNAPNAME now returns the
+      configuration and devices included in the snapshot
+    - Three new configuration options have been introduced to configure
+      the daemon to use an HTTP proxy
+        + core.proxy_https (if not set, uses HTTPS_PROXY env variable)
+        + core.proxy_http (if not set, uses HTTP_PROXY env variable)
+        + core.proxy_ignore_hosts (if not set, uses NO_PROXY env variable)
+    - Cache remote simplestream data for an hour in the daemon so we
+      don't hammer the remote server
+    - Allow for auto-update of images coming from a LXD server
+    - Change ConnectInfo to take a RemoteConfig.
+    - Workaround kernel overmounting protection
+    - migration: attempt to be slightly smart about moving filesystems
+    - tests: disarm the gremlins by comparing things in UTC
+    - zfs: fix handling of the "snapshot only" send case
+    - Allow reducing the LVM LV size and update tests
+    - profiles: don't mask error message when not found
+    - mounting: only block devices hold filesystems
+    - Rework event locking
+    - Fix panic due to concurent read/edit of container lock
+    - zfs: Skip the pool header line
+    - Make it clear that the init arguments only apply in auto mode
+    - Fix error message when snapshotting with existing name
+    - lvm: make errors log as errors
+    - Don't generate client certificates when calling NewClient
+    - Fix parsing image names
+    - Forward errors from forkgetfile and forkputfile
+    - Make changing https_address more reliable
+    - migration: don't defer cleanup of sending snapshots
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 10 Mar 2016 23:10:53 -0500
+
+lxd (2.0.0~rc2-0ubuntu3) xenial; urgency=medium
+
+  * Remove the lxd cron job. (LP: #1555013)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 09 Mar 2016 14:48:36 -0500
+
+lxd (2.0.0~rc2-0ubuntu2) xenial; urgency=medium
+
+  * Cherry-pick upstream bugfix:
+    - Workaround kernel overmounting protection (LP: #1551854)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 07 Mar 2016 22:18:32 -0500
+
+lxd (2.0.0~rc2-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~rc2):
+    - Add configuration keys for the rest of the CORS headers
+    - Get one step closer to dropping lxd-images, lxd-images is now just a shim
+    - Deprecate support for Go < 1.5 as some of our dependencies dropped
+      1.4 support
+    - Fix image import from remote lxd using aliases
+    - Fix creation of extra volatile entries
+    - Fix testsuite for when stdout is a file
+    - Initialize the storage driver before messing with images
+    - Restrict lxd init to root
+    - Only attempt to load containers AFTER the socket is setup
+    - Fix default protocol in image download
+    - Only setup forwarding when an IP is set
+    - client: add default config in NewClientFromInfo
+    - Fix incorrect device type in dbUpdateFromV26
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 07 Mar 2016 21:08:02 -0500
+
+lxd (2.0.0~rc1-0ubuntu3) xenial; urgency=medium
+
+  * Fix incorrect version string in LXD.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 04 Mar 2016 10:58:14 -0500
+
+lxd (2.0.0~rc1-0ubuntu2) xenial; urgency=medium
+
+  * Cherry-pick upstream bugfixes:
+    - Typo fix in the client (s/transfering/transsferring)
+    - Fix for V26 DB update
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 03 Mar 2016 11:58:31 -0500
+
+lxd (2.0.0~rc1-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~rc1):
+    - Support for the Cgroup namespace.
+    - It is now possible to set the lxc.network.X.ipv{4,6}[.gateway]
+      raw.lxc keys (with usual caution with regard to raw.lxc)
+    - /proc and /sys are now clean straight mounts when the container is
+      unprivileged
+    - The scope of IP addresses is now exported and used to filter local
+      addresses out by default
+    - lxc exec now defaults to non-interactive mode when stdout isn't a tty
+    - All the tables rendered by the client now look alike
+    - Simplestreams is now natively supported by both the client and the
+      server, eliminating the need for lxd-images
+    - Background image syncronization is now supported by the server and
+      done by-default for all cached images
+    - The last time an image was used and whether it's stored in the
+      cached is now exported over the API and visible in "lxc image info"
+    - Profiles now have a description field
+    - It is now possible to do a stateful container stop where the
+      container is checkpointed to disk rather than killed, then resumed on
+      next start.
+    - A "docker" profile is now present by default with those settings
+      required to be able to run Docker inside a LXD container.
+    - Image import now reports upload progress.
+    - Various bugfixes:
+      + Refactor the GenCert function so it can be reused.
+      + tests: get rid of commented out code
+      + Rework lxd.NewClient so we don't need a disk cache.
+      + shared: export limit parsing function
+      + Add upgrade procedure to README
+      + websocket: fix panic() on concurrent writes
+      + Don't allow the state functions to fail
+      + specs: Remove section on Etag (not implemented)
+      + specs: Fix rest-api layout
+      + list: Fix crash on PID column
+      + Fix name printing on lxc init
+      + Fix a variety of issues with blkio limits
+      + Fix hardcoded architecture path in apparmor profile
+      + tests: Fix failure on networked test
+      + tests: Fix the number of certs check
+      + Fix snapshot configuration
+      + Don't rely on the filesystem to check if stateful
+      + Catch checkpoint failures
+      + Fix DB test
+      + Better lock around event listeners
+      + Fix container not rebooting properly
+      + Add package "make" to build dependencies installation command
+      + Don't stop at an unsatisfactory sub?id entry
+      + client: better error on lxc stop remote:
+      + Just use the shared struct whenever possible in the client
+      + Fix download progress on launch
+      + Fix alignment of numbers in tables
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 02 Mar 2016 19:39:18 -0500
+
+lxd (2.0.0~beta4-0ubuntu7) xenial; urgency=medium
+
+  * Don't hardcode the library path in the systemd unit.
+  * Cherry-pick upstream bugfix:
+    - Don't hardcode architecture in apparmor profile
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 26 Feb 2016 12:40:28 -0500
+
+lxd (2.0.0~beta4-0ubuntu6) xenial; urgency=medium
+
+  * Drop the trailing newline patch as it was causing regressions in
+    interactive mode.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 25 Feb 2016 16:13:03 -0500
+
+lxd (2.0.0~beta4-0ubuntu5) xenial; urgency=medium
+
+  * Cherry-pick upstream bugfixes:
+    - Don't allow the state functions to fail
+    - exec: remove trailing newlines
+    - websocket: fix panic() on concurrent writes
+    - Don't list link local addresses in list
+    - Detect and support the cgroup namespace
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 25 Feb 2016 12:43:46 -0500
+
+lxd (2.0.0~beta4-0ubuntu4) xenial; urgency=medium
+
+  * Fix race condition between systemd units at shutdown.
+  * Update the description of all systemd units to be easier to grep.
+  * Update upstart job to also do proper shutdown/restart of containers
+    on host reboot and a quick daemon restart the rest of the time.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 24 Feb 2016 17:44:22 -0500
+
+lxd (2.0.0~beta4-0ubuntu3) xenial; urgency=medium
+
+  * Rename lxd-startup.service to lxd-containers.service
+  * Have lxd-containers.service handle clean shutdowns of LXD by calling
+    "lxd shutdown" on host shutdown.
+  * Do a standard daemon restart (SIGTERM) on restart of lxc.service
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 24 Feb 2016 14:32:07 -0500
+
+lxd (2.0.0~beta4-0ubuntu2) xenial; urgency=medium
+
+  * debian/lxd.preinst: Add missing check for $1 == "upgrade".
+    (LP: #1549133)
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Wed, 24 Feb 2016 07:52:22 +0100
+
+lxd (2.0.0~beta4-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~beta4):
+    - The API versioning data at /1.0 has changed, now includes,
+      api_status, api_version and api_extensions
+    - Architecture fields are now returned as strings instead of obscure
+      integer
+    - GET /1.0/containers/NAME/state has been reworked, now includes
+      more detailed network information, disk usage information as well as
+      memory consumption data.
+    - New --fast mode for "lxc list" which only lists "cheap" fields
+    - The container architecture is now listed in "lxc info"
+    - Add process count limit (pids cgroup)
+    - Fix container creation from remote image alias
+    - Fix Content-Type value for errors
+    - Don't stop containers before asking the user
+    - Re-implement terminal functions through cgo (fixes ppc64el)
+    - Allow access to /dev/zero
+    - tests: Keep pprof self-contained
+    - Use iproute2 instead of bridge-utils
+    - lxd-images: Fix sync
+    - allow cgroupfs mounting on cgns kernels
+    - Optimize container process count (use pid cgroup)
+    - Fix file push permissions (LP: #1548878)
+    - list: Query containers by batch of 10
+    - Only re-balance on host network changes
+    - list: Attempt to optimize the go routines slightly
+  * Move adduser logic to preinst.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 23 Feb 2016 19:59:21 -0500
+
+lxd (2.0.0~beta3-0ubuntu4) xenial; urgency=medium
+
+  * Chery-pick fixes from upstream:
+    - allow cgroupfs mounting on cgns kernels (LP: #1548440)
+    - lxd-images: Fix sync
+    - Use iproute2 instead of bridge-utils
+    - tests: Keep pprof self-contained
+    - Allow acces to /dev/zero
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 22 Feb 2016 13:33:20 -0500
+
+lxd (2.0.0~beta3-0ubuntu3) xenial; urgency=medium
+
+  * Introduce a new lxc2 metapackage.
+  * Update init scripts not to depend on the lxc ones.
+  * Call lxc-apparmor-load at startup time.
+  * Update maintainer scripts not to start lxd when system-activation is
+    available (LP: #1545017)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 19 Feb 2016 23:57:44 -0500
+
+lxd (2.0.0~beta3-0ubuntu2) xenial; urgency=medium
+
+  * Cherry-pick fixes from upstream:
+    - Fix static analysis tests
+    - Re-implement terminal functions through cgo (LP: #1547190)
+    - Move i18n under shared
+    - Don't stop containers before asking the user
+    - Fix Content-Type value for errors
+    - Fix container creation from remote image alias
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 19 Feb 2016 16:31:32 -0500
+
+lxd (2.0.0~beta3-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~beta3):
+    - "lxc publish" can now be forced to publish running containers (it
+      will temporarily stop them)
+    - "lxc image list" now shows images sorted by description
+    - Complete review of the REST API and update to make it all match
+      the specification.
+    - Extra security now applies for cross-server communication:
+    - Fix invalid container name in lxc file
+    - tests: Add test for aliases with slashes
+    - Fix updating ephemeral and architecture flags
+    - Clarify publish error message a bit
+    - Fix interacting with aliases with a trailing slash
+    - Don't move the image into place until it's been parsed
+    - Make sure we always use the right dialer and proxy
+    - specs: Fix wrong key name
+    - Fix lxc file on Windows
+    - Fix broken DB migration when upgrading from LXD 0.27 or older
+    - Avoid global variables in client tool
+    - Fix errors due to early failure to connect
+    - Always export the file size on transfer
+    - Fixed some typos
+    - lxd-images: Register atexit at init time
+    - specs: Update storage spec for btrfs send/receive
+    - Use upstream go-systemd (this breaks backward compatibility with Go 1.3)
+  * Move bash completion profile to /usr/share/bash-completion
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 18 Feb 2016 00:34:35 -0500
+
+lxd (2.0.0~beta2-0ubuntu2) xenial; urgency=medium
+
+  * Cherry-pick upstream bugfix:
+    - DB migration failure fix
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sun, 14 Feb 2016 17:27:34 -0500
+
+lxd (2.0.0~beta2-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~beta2):
+    - /dev/console has been re-enabled
+    - The btrfs backend now supports optimized container transfer
+    - Source file ownership and permissions are conserved by default on
+      "lxc file push"
+    - Both "lxc list" and "lxc image list" now accept regular
+      expressions as filter
+    - lxc info now shows the container creation date (if known), the
+      list of profiles and detailed snapshot information
+    - Recursive aliases are now supported in the client
+      (e.g. "delete: delete -f")
+    - "lxc delete" now requires a "-f/--force" flag when run against a
+      running container
+    - "lxc delete" now has a -i option to always request user
+      confirmation on delete
+  * Add a direct dependency on liblxc1, lxcfs and uidmap.
+
+  [ Michael Hudson-Doyle ]
+  * Update debian/rules to follow dh-golang's expectations a little more
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 10 Feb 2016 22:45:46 -0500
+
+lxd (2.0.0~beta1-0ubuntu4) xenial; urgency=medium
+
+  [ Stéphane Graber ]
+  * Cherry-pick zfs storage fix (copy non-zfs to zfs)
+
+  [ Michael Hudson-Doyle ]
+  * Simpify debian/rules logic
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 04 Feb 2016 01:14:09 +0100
+
+lxd (2.0.0~beta1-0ubuntu3) xenial; urgency=medium
+
+  * Cherry-pick fix for arm64 build.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 27 Jan 2016 08:32:42 +0000
+
+lxd (2.0.0~beta1-0ubuntu2) xenial; urgency=medium
+
+  * Fix version parsing code in debian/rules
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 27 Jan 2016 01:35:00 +0000
+
+lxd (2.0.0~beta1-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (2.0.0~beta1):
+    - "lxc config edit" now works to edit the local server configuration
+    - Add support for block I/O limits
+    - Add support for network I/O limits
+    - error out on deleting nonexistent alias
+    - Fix LXC config rendering
+    - Improve detection of text editor
+    - Fix "lxc file edit"
+    - Add network limits
+    - Fix IPv6 handling in daemon code
+    - Update specs and documentation on file pull/push
+    - Better deal with broken LXC
+    - Update README to avoid setting a mountpoint for zfs
+    - Print message on sucessfull copy of image
+    - Fix small typo s/sucessfully/successfully
+    - Improve forkstart debugging
+    - Always call Rename() when not migrating
+    - Use a tempfile for image uploads
+    - report errors if the restore call's start command fails
+    - Truncate the target on file transfer
+    - Mention that raw keys are risky
+    - Allow writes to /dev/tty in privileged containers
+    - implement stateful snapshot restore
+    - don't fail to delete when deleting snapshots fails
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 26 Jan 2016 19:38:11 -0500
+
+lxd (0.27-0ubuntu2) xenial; urgency=high
+
+  * golang-go:ppc64el has fixed linking support, golang-go:powerpc is a
+    dummy package, which depends on gccgo, thus update dependencies to use
+    golang package name unconditionally.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 21 Jan 2016 16:12:28 +0000
+
+lxd (0.27-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (0.27)
+    - Support for container disk quota (zfs and btrfs only)
+    - Download progress during image copy and container launch (LP: #1530414)
+    - Initial work on a LXC to LXD script (supports almost every
+      configuration except for unprivileged containers)
+    - New linux.kernel_modules container property (list of modules to
+      load before starting the container)
+    - New core.https_allowed_origin server property (controls the
+      Access-Control-Allow-Origin header)
+    - Profile changes are now live-applied to all affected containers
+    - "lxc config edit" now works against servers too
+    - Changes to security.nesting are now live-applied
+    - Support for xfs with the lvm backend
+    - "lxc image list" now supports filtering (by name, hash and properties)
+    - Improved bash completion profile
+    - The default remote is now visible in "lxc remote list"
+    - "lxc info" now indicates whether a container is ephemeral or persistent
+    - Various improvement to help messages
+      (LP: #1531643, LP: #1530413, LP: #1531357)
+    - A lot of bugfixes and other performance improvement, see:
+      https://linuxcontainers.org/lxd/news/
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 20 Jan 2016 09:53:05 -0500
+
+lxd (0.26-0ubuntu3) xenial; urgency=medium
+
+  * Cherry-pick upstream bugfixes:
+    - 0001-export-fix-crash-when-metadata.yaml-is-missing.patch
+    - 0002-migration-report-errors-from-criu-or-liblxc.patch
+    - 0003-lxc-copy-try-and-report-the-real-error.patch
+    - 0004-bash-completion-updates.patch (LP: #1531358)
+  * Install bash completion profile
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 07 Jan 2016 18:28:38 -0500
+
+lxd (0.26-0ubuntu2) xenial; urgency=medium
+
+  * Fix autopkgtest exercise script to use new environment variable name.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 05 Jan 2016 10:33:17 -0500
+
+lxd (0.26-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (0.26)
+    - New "host_name" network interface property that specifies the name
+      of the host side veth device
+    - It is now possible to pull/push/edit files of a stopped container
+    - It's now possible to specify what "lxc list" columns to show
+      (including a new PID column)
+    - Properly inherit the active CPU map rather than assuming all CPUs
+      are usable
+    - zfs: Fix a couple of race conditions
+    - lvm: Fix creation of container from an image
+    - Cut down network round trips in half by not calling Finger() every time
+    - Fix invalid permissions on container shmounts and devices directories
+    - Fix container teardown not always cleaning up devices & mounts
+    - Improve performance of host-triggered container stop/restart (5s faster)
+    - Make lxd callhook timeout after 30s
+      (instead of hanging indefinitely on failure)
+    - Cleanup and document the testsuite
+    - Fix remote certificate handling on add/rename/remove
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 04 Jan 2016 18:40:23 -0500
+
+lxd (0.25-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (0.25)
+    - New --mode argument to "lxc exec", makes it possible to force
+      non-interactive mode.
+    - Full support of the s390x architecture (IBM z/series 64bit)
+    - Command aliases can now move the command arguments by using the
+      @ARGS@ keyword
+    - Full support for CPU limits:
+      + limits.cpu: Number of CPUs (e.g. 2) or range of core (e.g. 0,2-3)
+      + limits.cpu.allowance: Percentage of CPU time under load (e.g. 50%)
+        or hard time limit (10ms/50ms)
+      + limits.cpu.priority: Container priority when host is under load
+        as a value between 1 (lowest) and 10 (highest) (e.g. 5)
+    - Full support for memory limits:
+      + limits.memory: Limit in bytes (kB, MB, GB, TB, PB, EB suffixes
+        supported) (e.g. 256MB) or in percentage of the host memory (e.g. 20%)
+      + limits.memory.enforce: hard (container cannot use more memory
+        than allocated) or soft (limit only applies under load)
+      + limits.memory.swap: true or false, indicates whether the
+        container may use the swap
+      + limits.memory.swap.priority: Priority for swap usage, from 1 to 10,
+        with 1 causing the most data to be swapped out to disk
+    - All CPU and memory limits are now applied live.
+    - Support for optimized (send/receive) ZFS container & snapshot migration
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 21 Dec 2015 18:56:10 -0500
+
+lxd (0.24-0ubuntu4) xenial; urgency=medium
+
+  * Cherry-pick the following upstream commits:
+    - 0009-images-fix-expiry-logic.patch
+    - 0010-Add-proper-s390x-support.patch
+    - 0011-Allow-moving-arguments-in-aliases.patch
+    - 0012-Live-apply-memory-limits.patch
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 11 Dec 2015 18:32:15 -0500
+
+lxd (0.24-0ubuntu3) xenial; urgency=medium
+
+  * Use the packaged versions of:
+    - golang-github-coreos-go-systemd
+    - golang-github-pborman-uuid-dev
+    - golang-gocapability-dev
+  * Add a new golang-github-lxc-lxd-dev package.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 10 Dec 2015 14:35:01 -0500
+
+lxd (0.24-0ubuntu2) xenial; urgency=medium
+
+  * Cherry-pick the following upstream bugfixes: (LP: #1522755)
+    - 0001-Introduce-a-new-mode-option-to-exec.patch
+    - 0002-remove-extra-debugging-statement.patch
+    - 0003-generate-a-better-error-message-for-legacy-image-imp.patch
+    - 0004-hide-lxc-importer-from-help-output.patch
+    - 0005-tests-Avoid-device-conflicts.patch
+    - 0006-Use-the-mountpoint-command-when-available.patch
+    - 0007-tests-Fix-mount-issues.patch
+    - 0008-Apparently-IsMountPoint-is-never-very-reliable-with-.patch
+  * Set wait timeout to 10 minutes in lxd job. This should be long
+    enough for even the slowest hardware to generate a SSL key.
+  * Update debian/rules to make it easier to flip between building with
+    the embedded dependencies or not.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 09 Dec 2015 16:46:41 -0500
+
+lxd (0.24-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (0.24)
+  * Drop all patches (merged upstream)
+  * Update debian/copyright file (change of gettext and uuid dependencies)
+  * For the following dependencies, use the packaged version rather than
+    the one bundled within the LXD source:
+    - golang-go.crypto-dev
+    - golang-context-dev
+    - golang-github-gorilla-mux-dev
+    - golang-github-mattn-go-sqlite3-dev
+    - golang-github-olekukonko-tablewriter-dev
+    - golang-gopkg-tomb.v2-dev
+    - golang-goprotobuf-dev
+    - golang-petname-dev
+    - golang-yaml.v2-dev
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 09 Dec 2015 00:33:28 -0500
+
+lxd (0.23-0ubuntu3) xenial; urgency=medium
+
+  * Fix systemd resource limits. (LP: #1521980)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 02 Dec 2015 12:34:14 -0500
+
+lxd (0.23-0ubuntu2) xenial; urgency=medium
+
+  * Cherrypick https://github.com/lxc/lxd/pull/1358
+  * Add s390x dependencies.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 26 Nov 2015 10:56:04 +0000
+
+lxd (0.23-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (0.23)
+    - New "lxd init" command is available to help setup storage, network
+      and password on new LXD installations
+    - Log messages are now sent over the events API
+    - New process count metric available in the containers API
+      and in "lxc info"
+    - Rewritten operations handling, now includes events for each
+      changes and includes download status
+    - "lxc image import" can now take the URL to an https webserver
+      advertising a LXD image through HTTP headers
+    - The minimal HTTP proxy shipped by LXD has been rewritten to be
+      even lighter
+    - "lxc config get \<server-config-key>" now works as expected
+    - lxd-images: Much lower memory usage when importing an image
+    - More readable log entries over the events API
+    - Event filtering in "lxc monitor" now works properly
+    - Container architectures are now properly tracked
+    - LXD now ensures that published containers will always have
+      metadata in their image
+    - Container copy now copies devices and config properly
+    - Image import failure now result in proper error messages
+    - "lxc info --show-log" is now also suggested on "lxc launch" failures
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 25 Nov 2015 02:11:02 -0500
+
+lxd (0.22-0ubuntu2) xenial; urgency=medium
+
+  * SECURITY UPDATE: Fix the mode of /var/lib/lxd/unix.socket when
+    socket-activated by systemd to be 0660 instead of 0666. (LP: #1515689)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 12 Nov 2015 11:35:59 -0500
+
+lxd (0.22-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (0.22)
+    - Freeze containers before killing them (helps with fork bombs)
+    - Configurable image compression algorithm (also supports no compression)
+    - Support using an HTTP proxy when downloading a remote image
+    - Initial implementation of the events interface and minimal client
+      for it (lxc monitor)
+    - Don't remove the main LXD socket when starting a second daemon
+    - On failure to add a remote, cleanup the cached certificate
+    - LXD no longer requires a client certificate to talk to public endpoints
+    - Better error and debug messages for checkpoint/restore and
+      container startup
+    - Fixed a race condition during container startup
+    - Update the busybox test image to avoid an occasional hang
+    - lvm-setup: Update to work on older Ubuntu releases
+    - Fix extraction of bz2 compressed images
+    - Fix a number of fd leaks
+    - Fix shmount handling to avoid creating an extra mount everytime
+      LXD starts
+    - lxd-images: Fallback to the daily stream if an image can't be
+      found in the releases stream
+    - Fix a uid/gid mapping issue on container copy
+    - Fix a LXD hang on invalid LXC configuration key
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 10 Nov 2015 18:00:48 -0500
+
+lxd (0.21-0ubuntu5) xenial; urgency=medium
+
+  * Don't wrap our testsuite with "script", it apparently mangles output
+    in some odd cases.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 06 Nov 2015 11:43:34 -0500
+
+lxd (0.21-0ubuntu4) xenial; urgency=medium
+
+  * Re-enable all the tests so we can better debug what's going on in
+    autopkgtest.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sun, 01 Nov 2015 16:20:48 -0500
+
+lxd (0.21-0ubuntu3) xenial; urgency=medium
+
+  * Update previous patch to remove any related code as otherwise the
+    static analysis run in the testsuite (shellcheck) will fail on unused
+    variables.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sun, 01 Nov 2015 00:10:16 -0400
+
+lxd (0.21-0ubuntu2) xenial; urgency=medium
+
+  * Add a local patch which disables the MAC address check for now as we
+    appear to be getting some odd values back from the kernel under adt
+    (used to be empty is now valid value but prefixed with \@ and trailing \n).
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sat, 31 Oct 2015 22:16:29 -0400
+
+lxd (0.21-0ubuntu1) xenial; urgency=medium
+
+  * New upstream release (0.21)
+    - Default LVM volume size to 10GB (instead of 100GB)
+    - Client now supports aliases
+    - "lxc info" now works against servers
+    - Nested LXD now works on btrfs too
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sat, 31 Oct 2015 19:45:00 -0400
+
+lxd (0.20-0ubuntu4) wily; urgency=medium
+
+  * Use dh-golang. (LP: #1481507)
+  * Fix some lintian warnings (debconf related)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 16 Oct 2015 21:32:41 -0700
+
+lxd (0.20-0ubuntu3) wily; urgency=medium
+
+  * Cherry-pick upstream bugfix:
+    - Fix non-interactive exec race condition
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 15 Oct 2015 10:21:31 -0700
+
+lxd (0.20-0ubuntu2) wily; urgency=medium
+
+  * Add new test dependencies.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 14 Oct 2015 23:36:25 -0700
+
+lxd (0.20-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.20) (LP: #1487756)
+    - Fix LVM copy/move of stopped containers (LP: #1499359)
+    - Container restart is now implemented as stop + start (reloads all config)
+    - Config key=value can now be passed at launch time using --config/-c
+    - A new "pause" command is now available to temporarily freeze a container
+    - Cached images are now private by default
+    - You can now publish a remote container into the local image store
+    - It is now possible to add character or block devices to a container
+    - The image size is now shown in the image list
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 14 Oct 2015 17:40:47 -0700
+
+lxd (0.19-0ubuntu5) wily; urgency=medium
+
+  * Cherry-pick a few more upstream bugfixes:
+    - CVE-2015-1340: Fix race condition in uidshift (LP: #1502270)
+    - Compare IPs more intelligently when changing core.https_address
+    - Drop an unused container property
+    - Make cached images and copied images private by default
+  * Update debian/tests/control to depend on everything that we need
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 06 Oct 2015 13:20:58 +0100
+
+lxd (0.19-0ubuntu4) wily; urgency=medium
+
+  * Cherry-pick another upstream bugfix:
+    - Fix image show/edit handling of the public flag
+  * Add an hourly cron job (only runs if LXD is running) which will
+    update any image that was imported with the --sync flag.
+  * Set both NPROC and NOFILE to their maximum value (-1) in the LXD
+    systemd unit. This ensures consistent behavior on all init systems.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 01 Oct 2015 17:46:10 -0400
+
+lxd (0.19-0ubuntu3) wily; urgency=medium
+
+  * Cherry-pick a few more usptream bugfixes:
+    - Workaround a kernel race condition in testsuite (should fix adt)
+    - Add extra needed apparmor permissions for nesting
+    - Start container storage before public (fixes publish on LVM)
+    - Don't remove non-existent file when setting up LVM
+  * Update lintian overrides for 0.19
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 01 Oct 2015 00:11:05 -0400
+
+lxd (0.19-0ubuntu2) wily; urgency=medium
+
+  * Cherry-pick two upstream bugfixes (regressions in 0.19):
+    - Fix the testsuite failing when GOPATH isn't set
+    - Allow empty lines and comments in raw.lxc
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 30 Sep 2015 13:30:45 -0400
+
+lxd (0.19-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.19)
+    - ZFS support
+    - Support for container nesting
+    - Allow setting multi-line configuration keys by reading from stdin
+    - It's now possible to make an ephemeral copy of a container
+    - Public read-only servers are now auto-detected
+    - lxd-images now supports updating existing images
+    - It is now possible to mark/unmark images as public
+    - Completely reworked testsuite
+    - Updated documentation and specifications
+    - A lot of bugfixes (no known bugs left at time of release)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 29 Sep 2015 19:57:52 -0400
+
+lxd (0.18-0ubuntu2) wily; urgency=medium
+
+  * Add a lxd-startup.service systemd unit to detect whether LXD is
+    needed at startup (bound to network or got containers to start) and if
+    so, triggers it.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sat, 19 Sep 2015 14:50:34 -0400
+
+lxd (0.18-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.18)
+    - lxc: Add a new --force-local argument
+    - lxc: Allow file push/pull using stdin/stdout
+    - lxc: Rework translation template
+    - lxd/core: Fix image creation of privileged containers
+    - lxd/core: implement per-container apparmor profiles
+    - lxd/core: implement per-container seccomp profiles
+    - lxd/core: Fix socket-activation on exit
+    - lxd/core: Add support for nested LXD
+    - lxd/btrfs: Fix shared mount detection on btrfs
+    - lxd: Implement new "shutdown" sub-command
+    - lxd: Implement new "activateifneeded" sub-command
+    - scripts: Add script to set up and delete LVM storage
+    - A bunch more fixes, tests and other improvements
+  * This release includes the needed fixes for autopkgtest in the Ubuntu
+    CI environment.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 17 Sep 2015 15:19:10 -0400
+
+lxd (0.17-0ubuntu2) wily; urgency=medium
+
+  * Add XS-Testsuite to debian/control so it's consistently set no
+    matter what Ubuntu version was used to build the source package.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 07 Sep 2015 01:32:17 -0400
+
+lxd (0.17-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.17)
+    - lxc: Add a new "lxc file edit" command
+    - lxc: Add support for public remotes
+    - lxc: Support adding a remote by its IPv6 address
+    - lxd/core: Fix building with Go 1.5
+    - lxd/core: Allow renaming snapshots
+    - lxd/core: Add a new /logs REST API to containers
+    - lxd/core: Export the storage backend name and version
+    - lxd/btrfs: Support for recursive subvolume snapshot and removal
+    - lxd/lvm: Add snapshot support
+    - lxd/lvm: Add container copy support
+    - lxd/lvm: Add container rename support
+    - lxd/lvm: Disallow changing LVM config if pool is in use.
+    - lxd/lvm: Document LVM config keys in specs
+    - lxd-images: Deprecate "lxd images import lxc"
+    - lxd-images: Print the manifest URL
+    - lxd-images: Default to the "releases" stream for Ubuntu images
+    - vagrant: Support running in vmware
+    - A bunch more fixes, tests and other improvements
+  * Update debian/copyright to match reality.
+  * Add lxd-tools package containing fuidshift.
+  * Add lxd-bridge and lxd-bridge-proxy to the lxd package.
+  * Update lintian overrides.
+  * Add autopkgtest.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 03 Sep 2015 15:13:36 -0400
+
+lxd (0.16-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.16)
+    - Fix uid/gid mapping during container migration
+    - Fix uid/gid mapping when changing the local map
+    - Fix EDITOR handling
+    - Fix stateful snapshots
+    - Fix operations between a local and remote LXD
+    - Rework container auto-start to work as expected
+  * Use golang-go for arm64
+  * Force gccgo builds on everything bug amd64, i386, armhf and arm64
+    (LP: #1481921)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sat, 22 Aug 2015 11:52:07 -0700
+
+lxd (0.15-0ubuntu2) wily; urgency=medium
+
+  * No change rebuild to pick up LXc 1.1.3.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sun, 16 Aug 2015 12:14:39 -0400
+
+lxd (0.15-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.15)
+  * With this release, LXD no longer binds [::]:8443 by default.
+    To restore the previous behavior, please do:
+        lxc config set core.https_address [::]:8443
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 05 Aug 2015 14:48:51 -0400
+
+lxd (0.14-0ubuntu3) wily; urgency=medium
+
+  * Have the package create /var/log/lxd.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 29 Jul 2015 16:41:45 +0200
+
+lxd (0.14-0ubuntu2) wily; urgency=medium
+
+  * Cherry-pick bugfix for invalid / permission when using split-images.
+    5f45bfb2032716259be2412e0ac0902d70b944f0
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Sun, 26 Jul 2015 15:23:06 +0200
+
+lxd (0.14-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.14)
+  * Log daemon output to /var/log/lxd/lxd.log
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 21 Jul 2015 19:04:19 -0400
+
+lxd (0.13-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.13)
+  * Default to shutting down all containers on stop under systemd and upstart.
+    This isn't yet ideal as unfortunately that means all containers will
+    be bounced on service restart. Ideally, SIGPWR would only be sent to
+    LXD on host shutdown and SIGTERM would be sent the rest of the time.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 07 Jul 2015 18:27:32 -0400
+
+lxd (0.12-0ubuntu2) wily; urgency=medium
+
+  * Cherry-pick commit disabling /dev/lxd on gccgo for now.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 01 Jul 2015 11:29:02 -0400
+
+lxd (0.12-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.12)
+  * Bump open file limits to 65536 by default.
+  * Switch to socket activation for the systemd units.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 30 Jun 2015 18:58:41 -0400
+
+lxd (0.11-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.11)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 09 Jun 2015 19:18:56 +0200
+
+lxd (0.10-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.10)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 27 May 2015 15:58:16 -0400
+
+lxd (0.9-0ubuntu2) wily; urgency=medium
+
+  * Fix dh_installinit override.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Wed, 13 May 2015 13:49:38 -0400
+
+lxd (0.9-0ubuntu1) wily; urgency=medium
+
+  * New upstream release (0.9)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 12 May 2015 19:14:59 -0400
+
+lxd (0.7-0ubuntu1) vivid; urgency=medium
+
+  * New upstream release (0.7) (LP: #1425686)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 14 Apr 2015 23:54:16 -0500
+
+lxd (0.6-0ubuntu1) vivid; urgency=medium
+
+  * New upstream release (0.6) (LP: #1425686)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Tue, 07 Apr 2015 18:08:32 -0400
+
+lxd (0.5-0ubuntu4) vivid; urgency=medium
+
+  * Fix debian/compat
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 06 Apr 2015 20:33:06 -0400
+
+lxd (0.5-0ubuntu3) vivid; urgency=medium
+
+  * Bind to port 8443 by default (needed for remote management).
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Mon, 06 Apr 2015 19:57:46 -0400
+
+lxd (0.5-0ubuntu2) vivid; urgency=medium
+
+  * Cherry-pick powerpc fix from upstream.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 26 Mar 2015 16:55:15 -0400
+
+lxd (0.5-0ubuntu1) vivid; urgency=medium
+
+  * New upstream release (0.5) (LP: #1425686)
+  * Build on all architectures (using gccgo)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 26 Mar 2015 15:57:40 -0400
+
+lxd (0.1-0ubuntu1) vivid; urgency=medium
+
+  * Initial upstream release.
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Fri, 13 Feb 2015 16:32:33 -0500
