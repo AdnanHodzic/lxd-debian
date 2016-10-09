@@ -1,7 +1,7 @@
 Source: lxd
 Section: admin
 Priority: optional
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Maintainer: Adnan Hodzic <adnan@hodzic.org>
 Standards-Version: 3.9.8
 Homepage: https://linuxcontainers.org/
 Vcs-Git: https://github.com/lxc/lxd-pkg-ubuntu

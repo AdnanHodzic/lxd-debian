@@ -1,3 +1,9 @@
+lxd (2.4.1-debian1) unstable; urgency=medium
+
+  * Initial Debian package release (closes: 768073)
+
+ -- Adnan Hodzic <adnan@hodzic.org>  Sun, 09 Oct 2016 17:32:14 +0200
+
 lxd (2.4.1-0ubuntu1) yakkety; urgency=medium
 
   * New upstream bugfix release (2.4):
